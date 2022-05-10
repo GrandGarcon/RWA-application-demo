@@ -1,5 +1,35 @@
-# Goldfinch Protocol
-Goldfinch is a decentralized lending protocol built on the blockchain. This is a monorepo containing Goldfinch's smart contracts, web3 frontend and other supporting code.
+# RWA protocol development (Samriddhi)
+Samriddhi is a decentralized lending protocol on smart contracts to providing the real world assets as tokenised shares on the onchain capital financing for the project  . This is a monorepo containing  smart contracts,  frontend dapp and supporting devops code and eventually will be developed  into the modularised code wih the SDK's to build on top of this protocol .
+
+the core mechanism is the creation of the investment strategy based on  building the  investment strategies of real assets on the tinlake , makerdao , aave , primarily the loaning to real projects in tech sector and infrastructure. 
+
+## Overall working architecture:
+currently being developed in [Miro](https://miro.com/app/board/o9J_l-q8eLI=/?moveToWidget=3458764525005911630&cot=14). 
+
+
+## credits :
+thanks to goldfinch for open sourcing this repo via permissive license and building the community for real finance projects . 
+
+## components 
+
+
+| folder        | explanation |
+| ------------- | ------------- |
+|  autotasks  | consist of the OZ relayer jobs for managing the  automated calls , these will be decentralised by the implementation with the forta. |
+| client  | frontend application code library in web3-react  |
+| protocol | core protocol functioning  logic in solidity smart conntracts with hardhat framework |
+| server |  running backend on the firebase  (to be converted on either moralis or [appWrite](https://appwrite.io/)). |
+| subgraph | the subgraphs for indexing the details from the smart contract protocol  |
+
+-  Directory structure (from previous cloned repo)
+
+* [`packages/`](./packages): Contains all typescript packages and contracts.
+  * [`protocol/`](./packages/protocol) (`@goldfinch-eng/protocol`): Solidity smart contracts and tests.
+  * [`client/`](./packages/client) (`@goldfinch-eng/client`): Web3 frontend using React.
+  * [`functions/`](./packages/functions) (`@goldfinch-eng/functions`): Google cloud functions to support KYC and other server-side functionality.
+  * [`autotasks/`](./packages/autotasks) (`@goldfinch-eng/functions`): [Defender Autotasks and Relay](https://docs.openzeppelin.com/defender/autotasks) code for supporting gasless transactions and triggering periodic on-chain calls.
+  * [`utils/`](./packages/utils) (`@goldfinch-eng/utils`): Generally useful utilities that are shared across packages.
+* [`murmuration/`](./murmuration): Provisioning scripts for our cloud staging environment, called Murmuration.
 
 ## Installing
 #### Node version
@@ -30,12 +60,19 @@ npx lerna bootstrap
 
 ### Smart Contract Development
 All contracts are located under `packages/protocol/contracts`
+
 1. Make your changes
+
 2. Write tests, which should be placed under `packages/protocol/test`
-    - There are two kinds of tests. "Regular" (all local state) and "mainnet forking" (uses state from mainnet). They are located in different folders. Sometimes you write both for the same feature. Use your judgement depending on the change.
-3. Write great commit messages, and put up your PR!
+
+    - There are two kinds of tests. 
+        - "Regular" (all local state) : unit test considering only the  outputs within the range of  the inputs. 
+        -  "mainnet forking" (uses state from mainnet). They are located in different folders. Sometimes you write both for the same feature. 
+
+3. then  add the changes with the standard template (zenhub etc), and get your PR reviewed. 
 
 ### Frontend Development
+
 - `npm run start:local`
   - The simplest way to get going. All fresh, local state.
 - `npm run start`
@@ -45,7 +82,8 @@ All contracts are located under `packages/protocol/contracts`
 Both options will start several processes, including your local blockchain and front-end server, which will pop up on http://localhost:3000. It takes a min to spin up.
 
 #### One time setup (only necessary for front-end development)
-- Ensure you have Java installed (Firebase emulator requires the JVM)
+
+- For the current version  , we have deps of java emulator : please install the JVM and associated deps .
 - Copy `.env.example` to `.env.local` (the local will be ignored by git).
 - Add the following into your new `.env.local` file. Our local dev scripts will use these vars to automatically send you test ETH, and give you a credit line and USDC to play with.
 
@@ -71,15 +109,6 @@ by looking at the terminal output of the `@goldfinch-eng/protocol` start command
 then go to `Add Token` in Metamask, and paste it in there. Your fake USDC balance should show up.
 
 
-### Directory structure
-
-* [`packages/`](./packages): Contains all typescript packages and contracts.
-  * [`protocol/`](./packages/protocol) (`@goldfinch-eng/protocol`): Solidity smart contracts and tests.
-  * [`client/`](./packages/client) (`@goldfinch-eng/client`): Web3 frontend using React.
-  * [`functions/`](./packages/functions) (`@goldfinch-eng/functions`): Google cloud functions to support KYC and other server-side functionality.
-  * [`autotasks/`](./packages/autotasks) (`@goldfinch-eng/functions`): [Defender Autotasks and Relay](https://docs.openzeppelin.com/defender/autotasks) code for supporting gasless transactions and triggering periodic on-chain calls.
-  * [`utils/`](./packages/utils) (`@goldfinch-eng/utils`): Generally useful utilities that are shared across packages.
-* [`murmuration/`](./murmuration): Provisioning scripts for our cloud staging environment, called Murmuration.
 
 ### Tenderly debugging
 We have the ability to debug/profile local transactions via [Tenderly](Tenderly.co). To do this, get hold of a transaction hash and then run:
